@@ -1,6 +1,10 @@
 import fs from 'fs'
+import moment from 'moment'
+
 
 const path = "src/files/products.json"
+const moments = moment().format('YYYY-MM-DD HH:mm:ss');
+
 class ProductContainer {
   getAllProducts = async() =>{
     try{
@@ -20,10 +24,12 @@ class ProductContainer {
       let products = await this.getAllProducts();
       if(products.length===0){
           product.id=1;
+          product.timestamp= moments;
           products.push(product);
           await fs.promises.writeFile(path,JSON.stringify(products,null,'\t'));
       }else{
           product.id = products[products.length-1].id+1;
+          product.timestamp= moments;
           products.push(product);
           await fs.promises.writeFile(path,JSON.stringify(products,null,'\t'));
       }
@@ -34,52 +40,68 @@ class ProductContainer {
   }
   getById = async(id) => {
     try {
-      let objetId = await this.getAllProducts()
-      const leak = objetId.find((item) =>{
-      if(id == item.id){
-        return item
-      }else{
-        return null
+      let products = await this.getAllProducts()
+      let product = null
+      for(const item of products){
+          if(item.id===id){
+              product =item
+          }
       }
-      })
-      return console.log("GetByID: ", leak)
-    } catch (error) {
-      console.log('Id not found: ', error)
-    }
-}
-
-deleteById = async(id) =>{
-  try{
-    let remove = await this.getAllProducts()
-    const removes = remove.filter((item) =>{
-        if(id != item.id){
-            return item
-        }else{
-            return null
-        }
-    })
-    const newArray = fs.promises.writeFile(path, JSON.stringify(removes, null, '\t'))
-    console.log("Product correctly removed")
-    return newArray
-}catch(error){
-    console.log('Cannot be deleted: ', error)
-}
-}   
-
-deleteAll = async() => {
-  try{
-    await fs.promises.writeFile(path, '[]')
+      return product
   } catch (error) {
-    console.log(error)
+      console.log('GetById: '+error)
+      return null
   }
+  }
+
+  deleteById = async(id) =>{
+    try{
+      let remove = await this.getAllProducts()
+      const removes = remove.filter((item) =>{
+          if(id != item.id){
+            return item
+          }else{
+            return null
+          }
+      })
+      const newArray = fs.promises.writeFile(path, JSON.stringify(removes, null, '\t'))
+      console.log(newArray)
+      return newArray
+    }catch(error){
+      console.log('Cannot be deleted: ', error)
+    }
+  }   
+
+  deleteAll = async() => {
+    try{
+      await fs.promises.writeFile(path,JSON.stringify([], null, '\t'))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  updateProduct = async(id, newData, newData1)=>{
+    let productsArray = await this.getAllProducts()
+    for(const item of productsArray){
+        if(item.id === id){
+            item.name = newData1,
+            item.price = newData
+        }
+    }
+    console.log(`id: ${id}, newData: ${newData}`)
+    console.log(productsArray)
+    await fs.promises.writeFile(path,JSON.stringify(productsArray, null, '\t'))
 }
+
+
     
 }
     
 
 
   
-
+// product{ id, name, price, timestamp,description,code,thumbnail(url),stock}
 
   
  
