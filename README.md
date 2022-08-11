@@ -2,7 +2,7 @@
 ##Dependencias
 >>moment\
 >>nodemon\
->>express\
+>>express
 ## Levantar npm
 >> npm start
 
