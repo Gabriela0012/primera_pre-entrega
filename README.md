@@ -1,8 +1,8 @@
 # Primera Pre-entrega
 ##Dependencias
->>moment
->>nodemon
->>express
+>>moment\
+>>nodemon\
+>>express\
 ## Levantar npm
 >> npm start
 
