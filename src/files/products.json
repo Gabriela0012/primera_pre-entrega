@@ -1,0 +1,20 @@
+[
+	{
+		"title": "short",
+		"price": "8500",
+		"image": "./image/short.jpg",
+		"id": 1
+	},
+	{
+		"title": "short gris",
+		"price": "8500",
+		"image": "./image/short_gris.jpg",
+		"id": 2
+	},
+	{
+		"title": "short blanco",
+		"price": "8500",
+		"image": "./image/short_blanco.jpg",
+		"id": 3
+	}
+]
